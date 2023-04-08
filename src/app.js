@@ -25,11 +25,12 @@ app.post("/tweets", (req,res)=>{
         return res.status(401).send("UNAUTHORIZED")
     }
     tweets.push({username, tweet})
+    
     res.status(201).send("OK")
 })
 
 app.get("/tweets", (req,res)=>{
-    if(tweets.length>10){
+    while(tweets.length>10){
         tweets.shift()
     }
     informations = []
