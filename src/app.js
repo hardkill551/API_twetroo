@@ -5,7 +5,7 @@ app.use(cors())
 app.use(express.json())
 const users = []
 const tweets = []
-const informations = []
+let informations = []
 
 app.post("/sign-up", (req, res)=>{
 const {username, avatar} =  req.body
@@ -16,11 +16,9 @@ users.push({username, avatar})
 res.send("OK")
 })
 
-app.post("/tweet", (req,res)=>{
+app.post("/tweets", (req,res)=>{
     const {username, tweet}=req.body
-    if(username===undefined||tweet===undefined){
-        res.sendStatus(404)
-    }
+  
     if(!users.find(user=>user.username===username)){
         return res.status(401).send("UNAUTHORIZED")
     }
@@ -29,9 +27,12 @@ app.post("/tweet", (req,res)=>{
 })
 
 app.get("/tweets", (req,res)=>{
-tweets.forEach((o, i)=>{
-const avatars = users.find(a=>a.username===o.username)
-informations.push({username:o.username, avatar: avatars.avatar, tweet:o.tweet})
+    informations = []
+    tweets.forEach((o, i)=>{
+
+    const avatars = users.find(a=>a.username===o.username)
+    informations.push({username:o.username, avatar: avatars.avatar, tweet:o.tweet})
+
 }
 )
 res.send(informations)
