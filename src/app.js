@@ -9,21 +9,23 @@ let informations = []
 
 app.post("/sign-up", (req, res)=>{
 const {username, avatar} =  req.body
-if(username===undefined||avatar===undefined){
-    res.sendStatus(400)
+if(username===undefined||avatar===undefined||username.length===0||avatar.length===0||typeof username!=="string"||typeof avatar!=="string"){
+    res.status(400).send("Todos os campos são obrigatórios!")
 }
 users.push({username, avatar})
-res.send("OK")
+res.status(201).send("OK")
 })
 
 app.post("/tweets", (req,res)=>{
     const {username, tweet}=req.body
-  
+    if(username===undefined||tweet===undefined||username.length===0||tweet.length===0||typeof username!=="string"||typeof tweet!=="string"){
+        res.status(400).send("Todos os campos são obrigatórios!")
+    }
     if(!users.find(user=>user.username===username)){
         return res.status(401).send("UNAUTHORIZED")
     }
     tweets.push({username, tweet})
-    res.send("OK")
+    res.status(201).send("OK")
 })
 
 app.get("/tweets", (req,res)=>{
