@@ -10,7 +10,7 @@ let informations = []
 app.post("/sign-up", (req, res)=>{
 const {username, avatar} =  req.body
 if(username===undefined||avatar===undefined){
-    res.sendStatus(404)
+    res.sendStatus(400)
 }
 users.push({username, avatar})
 res.send("OK")
@@ -27,6 +27,9 @@ app.post("/tweets", (req,res)=>{
 })
 
 app.get("/tweets", (req,res)=>{
+    if(tweets.length>10){
+        tweets.shift()
+    }
     informations = []
     tweets.forEach((o, i)=>{
 
