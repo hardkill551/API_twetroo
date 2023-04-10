@@ -18,9 +18,8 @@ res.status(201).send("OK")
 
 app.get("/tweets", (req,res)=>{
     let {page} = req.query
-    page = Number(page)
-    if(page!==undefined&&page<1){
-        res.status(400).send("Informe uma página válida!")
+    if(page!==undefined&&!(page>=1)){
+        return res.status(400).send("Informe uma página válida!")
     }
     if(page===undefined){
         page = 1 
