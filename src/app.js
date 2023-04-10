@@ -18,15 +18,16 @@ res.status(201).send("OK")
 
 app.get("/tweets", (req,res)=>{
     const {page} = req.query
-    if(!page>0||!undefined){
+    if(!page>0){
         res.status(400).send("Informe uma página válida!")
     }
-
+    if(page===1||undefined){
     informations = []
-    for(let i = tweets.length-1; i>tweets.length-11;i++){
+    for(let i = tweets.length-1; i>tweets.length-11;i--){
 
     const avatars = users.find(a=>a.username===tweets[i].username)
     informations.push({username:tweets[i].username, avatar: avatars.avatar, tweet:tweets[i].tweet})
+}
 }
 res.send(informations)
 }
