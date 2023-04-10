@@ -17,19 +17,21 @@ res.status(201).send("OK")
 })
 
 app.get("/tweets", (req,res)=>{
-    while(tweets.length>10){
-        tweets.shift()
+    const {page} = req.query
+    if(!page>0||!undefined){
+        res.status(400).send("Informe uma página válida!")
     }
+
     informations = []
-    tweets.forEach((o, i)=>{
+    for(let i = tweets.length-1; i>tweets.length-11;i++){
 
-    const avatars = users.find(a=>a.username===o.username)
-    informations.push({username:o.username, avatar: avatars.avatar, tweet:o.tweet})
-
+    const avatars = users.find(a=>a.username===username[i])
+    informations.push({username:tweets[i].username, avatar: avatars.avatar, tweet:tweets[i].tweet})
+}
+res.send(informations)
 }
 )
-res.send(informations)
-})
+
 
 app.post("/tweets", (req,res)=>{
     const {username, tweet}=req.body
