@@ -16,19 +16,6 @@ users.push({username, avatar})
 res.status(201).send("OK")
 })
 
-app.post("/tweets", (req,res)=>{
-    const {username, tweet}=req.body
-    if(username===undefined||tweet===undefined||username.length===0||tweet.length===0||typeof username!=="string"||typeof tweet!=="string"){
-        res.status(400).send("Todos os campos são obrigatórios!")
-    }
-    if(!users.find(user=>user.username===username)){
-        return res.status(401).send("UNAUTHORIZED")
-    }
-    tweets.push({username, tweet})
-    
-    res.status(201).send("OK")
-})
-
 app.get("/tweets", (req,res)=>{
     while(tweets.length>10){
         tweets.shift()
@@ -43,6 +30,27 @@ app.get("/tweets", (req,res)=>{
 )
 res.send(informations)
 })
+
+app.post("/tweets", (req,res)=>{
+    const {username, tweet}=req.body
+    if(username===undefined||tweet===undefined||username.length===0||tweet.length===0||typeof username!=="string"||typeof tweet!=="string"){
+        res.status(400).send("Todos os campos são obrigatórios!")
+    }
+    if(!users.find(user=>user.username===username)){
+        return res.status(401).send("UNAUTHORIZED")
+    }
+    tweets.push({username, tweet})
+    
+    res.status(201).send("OK")
+})
+
+
+app.get("/tweets/:username", (req,res)=>{
+    const {username} = req.params
+    const userTweets = tweets.filter((tweet)=> tweet.username===username)
+    res.status(200).send(userTweets)
+})
+
 
 
 
