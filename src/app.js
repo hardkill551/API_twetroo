@@ -40,14 +40,15 @@ res.send(informations)
 })
 
 app.post("/tweets", (req,res)=>{
-    const {username, tweet}=req.body
-    if(username===undefined||tweet===undefined||username.length===0||tweet.length===0||typeof username!=="string"||typeof tweet!=="string"){
+    const {user} = req.headers
+    const {tweet}=req.body
+    if(user===undefined||tweet===undefined||user.length===0||tweet.length===0||typeof user!=="string"||typeof tweet!=="string"){
         res.status(400).send("Todos os campos são obrigatórios!")
     }
-    if(!users.find(user=>user.username===username)){
+    if(!users.find(u=>u.username===user)){
         return res.status(401).send("UNAUTHORIZED")
     }
-    tweets.push({username, tweet})
+    tweets.push({username:user, tweet})
     
     res.status(201).send("OK")
 })
