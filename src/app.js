@@ -25,7 +25,7 @@ app.get("/tweets", (req,res)=>{
     informations = []
     for(let i = tweets.length-1; i>tweets.length-11;i++){
 
-    const avatars = users.find(a=>a.username===username[i])
+    const avatars = users.find(a=>a.username===tweets[i].username)
     informations.push({username:tweets[i].username, avatar: avatars.avatar, tweet:tweets[i].tweet})
 }
 res.send(informations)
